@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="account__info">
+        {% block company_info %}{% endblock company_info %}
+        {% block user_info %}{% endblock user_info %}
+        {% block employee_info %}{% endblock employee_info %}
+    </div>
+
+    <div class="account__main">
+        {% block company %}{% endblock company %}
+        {% block post %}{% endblock post %}
+        {% block product %}{% endblock product %}
+        {% block employee %}{% endblock employee %}
+    </div>
+
+
+
+
+    <style type="text/css">
+
+        .account__info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px;
+            padding-bottom: 0;
+        }
+
+        .account__main {
+            display: flex;
+            justify-content: space-between;
+            padding: 50px;
+        }
+
+
+    </style>
+    
+</body>
+</html>
