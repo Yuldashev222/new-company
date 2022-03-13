@@ -7,7 +7,7 @@ from main.models import *
 class User(AbstractUser):
     photo = models.ImageField(upload_to='User images/', blank=True, null=True)
     bio = models.CharField(max_length=200, blank=True, null=True)
-
+    
     def __str__(self):
         return self.username
 
@@ -36,6 +36,8 @@ class Employee(models.Model):
     url = models.SlugField(max_length=200, unique=True)
     date_created = models.DateField(auto_now=True)
     date_updated = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField()
+    
 
     def __str__(self):
         return self.name

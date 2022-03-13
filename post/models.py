@@ -28,6 +28,7 @@ class Post(models.Model):
     url = models.SlugField(unique=True)
     date_created = models.DateTimeField(auto_now=True)
     date_updated = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField()
 
 
     def __str__(self):
