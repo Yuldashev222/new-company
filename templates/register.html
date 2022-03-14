@@ -165,12 +165,12 @@
 
   <input type="password" name="password2" placeholder="Reply Password" id="password" required>
 
-  {% if messages %}
+  {% comment %} {% if messages %}
     {% for message in messages %}
       <p>{{ message }}</p>
 
     {% endfor %}
-  {% endif %}
+  {% endif %} {% endcomment %}
 
   <button>Yaratish</button>
   <div class="social">

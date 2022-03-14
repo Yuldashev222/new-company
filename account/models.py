@@ -34,9 +34,9 @@ class Employee(models.Model):
     city = models.CharField(verbose_name='shahar', max_length=300)
     street = models.CharField(verbose_name='ko\'cha', max_length=300, blank=True, null=True)
     url = models.SlugField(max_length=200, unique=True)
+    active = models.BooleanField(verbose_name='Xolati')
     date_created = models.DateField(auto_now=True)
     date_updated = models.DateTimeField(auto_now_add=True)
-    active = models.BooleanField()
     
 
     def __str__(self):

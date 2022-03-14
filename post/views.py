@@ -3,9 +3,13 @@ from django.shortcuts import render
 
 def posts(request):
 
-    return render(request, 'posts.html')
-    
+    context = {
+        'title': 'posts'
+    }
+
+    return render(request=request, template_name='posts.html', context=context)
+
 
 def post_detail(request):
 
-    return render(request, 'post-single.html')
+    return render(request=request, template_name='post-single.html')

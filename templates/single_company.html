@@ -1,0 +1,173 @@
+{% extends 'profile_base.html' %}
+{% load static %}
+
+{% block company_info %}
+    <div class="block" style="background-color: rgba(255, 255, 255, 0.226); border-radius: 20px; padding: 20px; display: flex; flex-direction: column; align-items: center">
+        <h2>Company info</h2>
+
+        {% if company.logotype %}
+            <img src="{{ company.logotype.url }}" width="100" height="100" alt="logotype in company" style="border-radius: 50%; margin-bottom: 20px">
+        {% else %}
+            <img src="https://thumbs.dreamstime.com/b/business-company-logo-27438246.jpg" width="100" height="100" alt="logotype in company" style="border-radius: 50%; margin-bottom: 20px">
+        {% endif %}
+
+
+        <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+            {% for form in EditCompanyForm %}
+                <p>{{ form.name }}: {{ form }}</p>
+            {% endfor %}
+            <button>update</button>
+        </form>
+
+    </div>
+{% endblock company_info %}
+
+{% block post %}
+    <div class="col">
+        <div class="add" style="background-color: rgba(255, 255, 255, 0.226); border-radius: 20px; padding: 20px;">
+            <h2>Add Post</h2>
+            <form action="" method="post" enctype='multipart/form-data'>{% csrf_token %}
+                {% for form in AddPostForm %}
+                    <p>{{ form.name }}: {{ form }}</p>
+                {% endfor %}
+                <button>add post</button>
+            </form>
+        </div>
+        <hr style='height: 50px'>
+        <div class="all" style="background-color: rgba(255, 255, 255, 0.226); border-radius: 20px; padding: 20px;">
+            <h3>Posts {{ posts.count }} ta</h3>
+            {% for post in posts %}
+               <hr style='height: 10px; margin-top: 50px'>
+
+               <p><span style="font-size: 20px; font-weight: 600"></span> <span>
+                   <img src="{{ post.image.url }}" width="100%" height="400px" alt="">
+               </span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">name: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ post.title }}</span></p>
+
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">category: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ post.category }}</span></p>
+                {% if company.author == post.author %}
+                    <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">author: </span> <span style="margin-left: 20px;">You</span></p>
+                {% else %}
+                    <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">author: </span> <span style="margin-left: 20px;">{{ post.author }}</span></p>
+                {% endif %}
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">title: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ post.title }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">text: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ post.text }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">tags: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ post.tags }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">url: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ post.url }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">date_created: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ post.date_created }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">date_updated: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ post.date_updated }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">active: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ post.active }}</span></p>
+
+            {% endfor %}
+        </div>
+    </div>
+{% endblock post %}
+
+{% block product %}
+    <div class="col">
+        <div class="add" style="background-color: rgba(255, 255, 255, 0.226); border-radius: 20px; padding: 20px;">
+            <h2>Add Product</h2>
+            <form action="" method="post" enctype='multipart/form-data'>{% csrf_token %}
+                {% for form in AddProductForm %}
+                    <p>{{ form.name }}: {{ form }}</p>
+                {% endfor %}
+                <button>add product</button>
+            </form>
+        </div>
+        <hr style='height: 50px'>
+        <div class="all" style="background-color: rgba(255, 255, 255, 0.226); border-radius: 20px; padding: 20px;">
+            <h3>Products {{ products.count }} ta</h3>
+            {% for product in products %}
+            <hr style='height: 10px; margin-top: 50px'>
+
+                <p><span style="font-size: 20px; font-weight: 600;"></span> 
+                    <span style="display: flex;">
+                        {% for image in product.images.all %}
+                            <img src="{{ image.image.url }}" alt="product image" style="width: calc(100% / {{ product.images.count }} )">
+                        {% endfor %}
+                    </span>
+                </p>
+
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">name: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ product.name }}</span></p>
+
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">category: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ product.category }}</span></p>
+                {% if company.author == product.author %}
+                    <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">author: </span> <span style="margin-left: 20px;">You</span></p>
+                {% else %}
+                    <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">author: </span> <span style="margin-left: 20px;">{{ product.author }}</span></p>
+                {% endif %}
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">price: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ product.price }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">bio: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ product.bio }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">text: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ product.text }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">url: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ product.url }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">date_created: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ product.date_created }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">date_updated: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ product.date_updated }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">active: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ product.active }}</span></p>
+
+            {% endfor %}
+        </div>
+    </div>
+{% endblock product %}
+
+{% block employee %}
+    <div class="col">
+        <div class="add" style="background-color: rgba(255, 255, 255, 0.226); border-radius: 20px; padding: 20px;">
+            <h2>Add Employee</h2>
+            <form action="" method="post" enctype='multipart/form-data'>{% csrf_token %}
+                <label for="">
+                    Username:
+                    <input type="name" name="username">
+                </label>
+                <label for="">
+                    Password:
+                    <input type="name" name="password1">
+                </label>
+                <label for="">
+                    Reply password:
+                    <input type="name" name="password2">
+                </label>
+
+                {% for form in AddEmployeeForm %}
+                    <p>{{ form.name }}: {{ form }}</p>
+                {% endfor %}
+                <button>add Employee</button>
+            </form>
+        </div>
+        <hr style='height: 50px'>
+        <div class="all" style="background-color: rgba(255, 255, 255, 0.226); border-radius: 20px; padding: 20px;">
+            <h3>Employes {{ employes.count }} ta</h3>
+            {% for employee in employes %}
+            <hr style='height: 10px; margin-top: 50px'>
+
+                {% if employee.photo %}
+                    <p><span style="font-size: 20px; font-weight: 600"></span> <span>
+                        <img src="{{ employee.photo.url }}" width="50%" alt="">
+                    </span></p>
+                {% else %}
+                    <p><span style="font-size: 20px; font-weight: 600"></span> <span>
+                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" width="50%" alt="">
+                    </span></p>
+                {% endif %}
+
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">name: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ employee.name }}</span></p>
+
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">user: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ employee.user }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">position: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ employee.position }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">email: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ employee.email }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">bio: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ employee.bio }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">tel: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ employee.tel }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">telegram_link: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ employee.telegram_link }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">instagram_link: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ employee.instagram_link }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">facebook_link: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ employee.facebook_link }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">state: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ employee.state }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">city: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ employee.city }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">street: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ employee.street }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">url: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ employee.url }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">date_created: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ employee.date_created }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">date_updated: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ employee.date_updated }}</span></p>
+                <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">active: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ employee.active }}</span></p>
+
+            {% endfor %}
+        </div>
+    </div>
+{% endblock employee %}

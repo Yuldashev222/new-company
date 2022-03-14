@@ -11,3 +11,4 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(Product_image)
 class ProductImageAdmin(admin.ModelAdmin):
   list_display = ['id', 'image', 'desc']
+

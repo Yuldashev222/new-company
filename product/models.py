@@ -15,7 +15,7 @@ class Product(models.Model):
     url = models.SlugField(unique=True)
     date_created = models.DateTimeField(auto_now=True)
     date_updated = models.DateTimeField(auto_now_add=True)
-    active = models.BooleanField()
+    active = models.BooleanField(verbose_name='Xolati')
 
 
     def __str__(self):
@@ -23,7 +23,7 @@ class Product(models.Model):
 
 
 class Product_image(models.Model):
-    product = models.ManyToManyField(Product, related_name='images')
+    product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='Product images/')
     desc = models.CharField(max_length=200, blank=True, null=True)
 

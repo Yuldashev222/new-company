@@ -4,7 +4,7 @@ from account.models import *
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     url = models.SlugField(max_length=200, unique=True)
 
     def __str__(self):
@@ -22,6 +22,7 @@ class Company(models.Model):
     name = models.CharField(max_length=100, unique=True)
     email = models.EmailField(max_length=200, blank=True, null=True)
     tel = models.CharField(max_length=11, blank=True, null=True)
+    logotype = models.ImageField(upload_to='Company logos/', blank=True, null=True)
     info = models.TextField()
     telegram_link = models.URLField(max_length=200, blank=True, null=True)
     instagram_link = models.URLField(max_length=200, blank=True, null=True)
