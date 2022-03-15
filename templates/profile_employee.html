@@ -1,25 +1,149 @@
 {% extends 'profile_base.html' %}
 {% load static %}
 
-{% block employee_info %}
+{% block company_info %}
+    <div class="block" style="background-color: rgba(255, 255, 255, 0.226); border-radius: 20px; padding: 20px; display: flex; flex-direction: column; align-items: center">
+        <h2>Employee info</h2>
+
+        {% if employee.photo %}
+            <img src="{{ employee.photo.url }}" width="100" height="100" alt="logotype in company" style="border-radius: 50%; margin-bottom: 20px">
+        {% else %}
+            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" width="100" height="100" alt="logotype in company" style="border-radius: 50%; margin-bottom: 20px">
+        {% endif %}
+
+        {% if employee.position == 'Pt' %}
+            <h5 style="">My position: Post admin</h4>
+        {% else %}
+            <h5 style="">My position: Product admin</h4>
+        {% endif %}
+
+
+        <form action="" method="post" enctype="multipart/form-data" style="margin-top: 10px">{% csrf_token %}
+            {% for form in EmpEditForm %}
+                <p>{{ form.name }}: {{ form }}</p>
+            {% endfor %}
+            <button>update</button>
+        </form>
+
+    </div>
+{% endblock company_info %}
+
+
+{% block post %}
+    {% if employee.position == 'Pt' %}
+        <div class="col">
+            <div class="add" style="background-color: rgba(255, 255, 255, 0.226); border-radius: 20px; padding: 20px;">
+                <h2>Add Post</h2>
+                <form action="" method="post" enctype='multipart/form-data'>{% csrf_token %}
+                    {% for form in AddPostForm %}
+                        <p>{{ form.name }}: {{ form }}</p>
+                    {% endfor %}
+                    <button>add post</button>
+                </form>
+            </div>
+            <hr style='height: 50px'>
+            <div class="all" style="background-color: rgba(255, 255, 255, 0.226); border-radius: 20px; padding: 20px;">
+                <h3>Posts {{ posts.count }} ta</h3>
+                {% for post in posts %}
+                <hr style='height: 10px; margin-top: 50px'>
+
+                <p><span style="font-size: 20px; font-weight: 600"></span> <span>
+                    <img src="{{ post.image.url }}" width="100%" height="400px" alt="">
+                </span></p>
+                    <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">name: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ post.title }}</span></p>
+
+                    <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">category: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ post.category }}</span></p>
+                    <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">title: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ post.title }}</span></p>
+                    <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">text: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ post.text }}</span></p>
+                    <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">tags: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ post.tags }}</span></p>
+                    <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">url: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ post.url }}</span></p>
+                    <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">date_created: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ post.date_created }}</span></p>
+                    <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">date_updated: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ post.date_updated }}</span></p>
+                    <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">active: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ post.active }}</span></p>
+
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock post %}
+
+
+{% block product %}
+    {% if employee.position == 'Pr' %}
     
-{% endblock employee_info %}
+        <div class="col">
+            <div class="add" style="background-color: rgba(255, 255, 255, 0.226); border-radius: 20px; padding: 20px;">
+                <h2>Add Product</h2>
+                <form action="" method="post" enctype='multipart/form-data'>{% csrf_token %}
+                    {% for form in AddProductForm %}
+                        <p>{{ form.name }}: {{ form }}</p>
+                    {% endfor %}
+                    <button>add product</button>
+                </form>
+            </div>
+            <hr style='height: 50px'>
+            <div class="all" style="background-color: rgba(255, 255, 255, 0.226); border-radius: 20px; padding: 20px;">
+                <h3>Products {{ products.count }} ta</h3>
+                {% for product in products %}
+                <hr style='height: 10px; margin-top: 50px'>
+
+                    <p><span style="font-size: 20px; font-weight: 600;"></span> 
+                        <span style="display: flex;">
+                            {% for image in product.images.all %}
+                                <img src="{{ image.image.url }}" alt="product image" style="width: calc(100% / {{ product.images.count }} )">
+                            {% endfor %}
+                        </span>
+                    </p>
+
+                    <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">name: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ product.name }}</span></p>
+
+                    <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">category: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ product.category }}</span></p>
+                    <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">price: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ product.price }}</span></p>
+                    <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">bio: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ product.bio }}</span></p>
+                    <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">text: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ product.text }}</span></p>
+                    <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">url: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ product.url }}</span></p>
+                    <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">date_created: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ product.date_created }}</span></p>
+                    <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">date_updated: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ product.date_updated }}</span></p>
+                    <p style="border-bottom: 1px solid #0000002b;"><span style="font-size: 20px; font-weight: 600">active: </span> <span style="margin-left: 20px; text-transform: uppercase;">{{ product.active }}</span></p>
+
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock product %}
+
 
 {% block company %}
-    <div class="companies">
-        <div class="add"></div>
-        <div class="all"></div>
+    <div class="col">
+        <div class="add" style="background-color: rgba(255, 255, 255, 0.226); border-radius: 20px; padding: 20px;">
+            <h2>Add Company</h2>
+            <form action="" method="post" enctype='multipart/form-data'>{% csrf_token %}
+                {% for form in AddCompanyForm %}
+                    <p>{{ form.name }}: {{ form }}</p>
+                {% endfor %}
+                <button>add Company</button>
+            </form>
+        </div>
+        <hr style='height: 50px'>
+        <div class="all" style="background-color: rgba(255, 255, 255, 0.226); border-radius: 20px; padding: 20px;">
+            <h3>My Companies {{ companies.count }} ta</h3>
+            
+            {% if companies %}
+                <div class="all" style="text-align: left;">
+
+                    {% for company in companies %}
+                        <hr style='height: 10px; margin-top: 50px'>
+
+                        <p><span style="font-size: 20px; font-weight: 600">{{ forloop.counter }}. Name:</span><span style= "margin-left: 20px; text-transform: uppercase;">{{ company.name }}</span></p>
+                        <div>
+                            <a href="{% url 'delete_company' company.url %}"><button>Delete</button></a>
+                            <a href="{% url 'single-company' company.url %}"><button style="margin-left: 10px">Edit</button></a>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            {% endif %}
+
+        </div>
     </div>
 {% endblock company %}
-{% block post %}
-    <div class="posts">
-        <div class="add"></div>
-        <div class="all"></div>
-    </div>
-{% endblock post %}
-{% block product %}
-    <div class="products">
-        <div class="add"></div>
-        <div class="all"></div>
-    </div>
-{% endblock product %}

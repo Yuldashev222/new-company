@@ -76,11 +76,16 @@ def contact(request):
 
 def delete_company(request, url):
     company = Company.objects.get(url=url)
-    username = company.author.username
+    user = company.author
 
     company.delete()
 
-    return redirect('user-profile', username)
+    try:
+        return redirect('user-employee', user.employee.url)
+
+    except:
+        return redirect('user-profile', user.username)
+
 
 
 def single_company(request, url):
@@ -126,6 +131,7 @@ def single_company(request, url):
             obj.company = company
             obj.author = company.author
             obj.save()
+            AddPostForm.save_m2m()
 
             return redirect('single-company', url)
 

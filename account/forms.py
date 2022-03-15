@@ -30,3 +30,10 @@ class AddEmployeeForm(ModelForm):
     class Meta:
         model = Employee
         fields = ['name', 'position', 'email', 'tel', 'photo', 'bio', 'telegram_link', 'instagram_link', 'facebook_link', 'state', 'city', 'street', 'url', 'active']
+
+
+class EditEmployeeForm(ModelForm):
+
+    class Meta:
+        model = Employee
+        fields = ['name', 'email', 'tel', 'photo', 'bio', 'telegram_link', 'instagram_link', 'facebook_link', 'state', 'city', 'street', 'url']

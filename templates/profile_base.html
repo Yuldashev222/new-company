@@ -43,12 +43,21 @@
           </div>
 
           
+    {% if request.user.is_authenticated %}
+
         <div style="background-color: lightgreen; padding: 7px 20px; border-radius: 7px; position: relative; right: -100px">
+        {% if request.user.employee %}
+            <a href="{% url 'user-employee' request.user.employee.url %}" style="color: #000;">My profile</a>
+        {% else %}
             <a href="{% url 'user-profile' request.user.username %}" style="color: #000;">My profile</a>
+        {% endif %}
         </div>
+
         <div style="background-color: lightgreen; padding: 7px 20px; border-radius: 7px; position: relative; right: -120px">
             <a href="{% url 'logout' %}" style="color: #000;">Log out</a>
         </div>
+          
+    {% endif %}
     
       
         </div>

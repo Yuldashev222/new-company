@@ -4,9 +4,12 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import authenticate
 
 from .models import *
+from main.models import *
+
 from .forms import *
 from main.forms import *
-from main.models import *
+from post.forms import *
+from product.forms import *
 
 
 def profile_user(request, username):
@@ -82,10 +85,71 @@ def profile_user(request, username):
     return render(request=request, template_name='profile_user.html', context=context)
 
 
-def profile_employee(request, username):
+def profile_employee(request, url):
+    employee = Employee.objects.get(url=url)
+
+    company = employee.company
+    companies = Company.objects.filter(author=employee.user)
+    posts = Post.objects.filter(author=employee.user)
+    products = Product.objects.filter(author=employee.user)
+
+    EmpEditForm = EditEmployeeForm(instance=employee)
+    AddCompanyForm = CompanyForm()
+    AddPostForm = PostForm()
+    AddProductForm = ProductForm()
+
+    if request.POST:
+        AddCompanyForm = CompanyForm(request.POST, request.FILES)
+        EmpEditForm = EditEmployeeForm(request.POST, request.FILES, instance=employee)
+        AddPostForm = PostForm(request.POST, request.FILES)
+        AddProductForm = ProductForm(request.POST, request.FILES)
+
+
+        if AddCompanyForm.is_valid():
+            obj = AddCompanyForm.save(commit=False)
+            obj.author = employee.user
+            obj.save()
+
+            return redirect('user-employee', url)
+
+
+        if EmpEditForm.is_valid():
+            obj = EmpEditForm.save(commit=False)
+            obj.save()
+
+            return redirect('user-employee', obj.url)
+
+
+        if AddPostForm.is_valid():
+            obj = AddPostForm.save(commit=False)
+            obj.company = employee.company
+            obj.author = employee.user
+            obj.save()
+            AddPostForm.save_m2m()
+
+            return redirect('user-employee', url)
+
+
+        if AddProductForm.is_valid():
+            obj = AddProductForm.save(commit=False)
+            obj.company = employee.company
+            obj.author = employee.user
+            obj.save()
+        
+            return redirect('user-employee', url)
+
 
     context = {
-        
+        'employee': employee,
+        'companies': companies,
+        'company': company,
+        'posts': posts,
+        'products': products,    
+
+        'EmpEditForm': EmpEditForm,
+        'AddCompanyForm': AddCompanyForm,
+        'AddPostForm': AddPostForm,
+        'AddProductForm': AddProductForm,
     }
 
     return render(request=request, template_name='profile_employee.html', context=context)

@@ -27,7 +27,7 @@ urlpatterns = [
 
     # Account views //////////////////
     path('profile-User/<str:username>/', profile_user, name='user-profile'),
-    path('profile-Employee/<str:username>/', profile_employee, name='user-employee'),
+    path('profile-Employee/<slug:url>/', profile_employee, name='user-employee'),
     path('Registration/', user_registration, name='registration'),
     path('login/', user_login, name='login'),
     path('home/', user_logout, name='logout'),

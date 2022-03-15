@@ -19,7 +19,7 @@ class Employee(models.Model):
         ('Pr', 'Product admin')
     ]
 
-    company = models.ManyToManyField('main.Company', related_name='employes')
+    company = models.ForeignKey('main.Company', related_name='employes', on_delete=models.CASCADE)
     user = models.OneToOneField(User, related_name='employee', on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     position = models.CharField(max_length=2, choices=position__choices)

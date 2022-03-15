@@ -80,7 +80,8 @@
             {% for product in products %}
             <hr style='height: 10px; margin-top: 50px'>
 
-                <p><span style="font-size: 20px; font-weight: 600;"></span> 
+                <p>
+                    <span style="font-size: 20px; font-weight: 600;"></span> 
                     <span style="display: flex;">
                         {% for image in product.images.all %}
                             <img src="{{ image.image.url }}" alt="product image" style="width: calc(100% / {{ product.images.count }} )">
